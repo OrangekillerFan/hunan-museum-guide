@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>湖南博物院 · 必看文物专业导览</title>
+<style>
+  :root {
+    --bg: #0f0e0c;
+    --bg-2: #1a1714;
+    --bg-3: #221d18;
+    --ink: #f4ead5;
+    --ink-dim: #bdb39f;
+    --ink-soft: #8a8170;
+    --accent: #c8a15e;
+    --accent-2: #8b3a2b;
+    --line: rgba(200, 161, 94, 0.22);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+  }
+  body {
+    background:
+      radial-gradient(ellipse at top, rgba(200,161,94,0.08), transparent 60%),
+      radial-gradient(ellipse at bottom, rgba(139,58,43,0.08), transparent 60%),
+      var(--bg);
+  }
+  .container { max-width: 820px; margin: 0 auto; padding: 48px 20px 80px; }
+
+  header {
+    text-align: center;
+    padding: 20px 0 36px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 32px;
+    margin: 14px 0 10px;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+  .subtitle { color: var(--ink-dim); font-size: 14px; letter-spacing: 0.1em; }
+
+  .disclaimer {
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    background: rgba(139,58,43,0.08);
+    border: 1px dashed rgba(139,58,43,0.4);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .toc {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 44px;
+  }
+  .toc h3 {
+    margin: 0 0 14px;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .toc ol {
+    margin: 0; padding-left: 22px;
+    columns: 2; column-gap: 20px;
+  }
+  .toc li { margin: 6px 0; font-size: 14px; }
+  .toc a { color: var(--ink); text-decoration: none; border-bottom: 1px dashed transparent; }
+  .toc a:hover { border-bottom-color: var(--accent); }
+
+  .section-head {
+    display: flex; align-items: baseline; gap: 14px;
+    margin: 64px 0 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head .num { font-size: 32px; color: var(--accent); font-weight: 300; font-family: "Georgia", serif; }
+  .section-head h2 {
+    font-size: 21px; margin: 0; font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+  .section-intro {
+    color: var(--ink-dim);
+    font-size: 14.5px;
+    margin-bottom: 28px;
+    padding: 0 2px;
+  }
+
+  .artifact {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .artifact img {
+    width: 100%;
+    display: block;
+    background: #000;
+  }
+  .artifact .body { padding: 24px 26px 28px; }
+  .artifact h3 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .meta {
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    margin-bottom: 18px;
+  }
+  .artifact p { margin: 12px 0; color: var(--ink); font-size: 15px; }
+
+  .sub-h {
+    margin: 22px 0 6px;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sub-h::before {
+    content: "";
+    display: inline-block;
+    width: 14px; height: 1px;
+    background: var(--accent);
+  }
+
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 20px;
+    margin: 14px 0 6px;
+    padding: 14px 16px;
+    background: var(--bg-3);
+    border-radius: 8px;
+    font-size: 13.5px;
+  }
+  .specs div { color: var(--ink-dim); }
+  .specs div b { color: var(--ink); font-weight: 500; }
+
+  .term {
+    color: var(--accent);
+    border-bottom: 1px dotted var(--accent);
+    cursor: help;
+  }
+
+  .quote {
+    margin: 14px 0;
+    padding: 10px 14px;
+    background: rgba(200, 161, 94, 0.06);
+    border-left: 2px solid var(--ink-soft);
+    font-size: 13.5px;
+    color: var(--ink-dim);
+    font-style: italic;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .why {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: rgba(200, 161, 94, 0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .why strong { color: var(--accent); font-weight: 500; }
+
+  .watch {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: rgba(139, 58, 43, 0.10);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 0 6px 6px 0;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .watch strong { color: #e5a78f; font-weight: 500; }
+
+  .tips {
+    margin-top: 56px;
+    background: linear-gradient(180deg, rgba(200,161,94,0.06), transparent);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 26px;
+  }
+  .tips h3 {
+    margin: 0 0 12px;
+    font-size: 15px; letter-spacing: 0.22em; color: var(--accent); font-weight: 500;
+  }
+  .tips ul { margin: 8px 0 0; padding-left: 20px; color: var(--ink); font-size: 14px; }
+  .tips li { margin: 8px 0; }
+
+  footer {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.15em;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 32px 14px 60px; }
+    h1 { font-size: 26px; }
+    .toc ol { columns: 1; }
+    .artifact h3 { font-size: 19px; }
+    .specs { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">HUNAN MUSEUM · PROFESSIONAL GUIDE</div>
+    <h1>湖南博物院 · 八件国宝专业导览</h1>
+    <div class="subtitle">形制 · 纹饰 · 铭文 · 工艺 · 考古语境</div>
+  </header>
+
+  <div class="disclaimer">
+    ⚠️ 下图均为 <b>AI 复原示意图</b>，并非文物实拍。文字基于《马王堆一号汉墓发掘报告》《湖南出土商周青铜器》及湖南博物院官方释读整理，现场实物以展陈为准。官方高清图可查 <b>hnmuseum.com</b>。
+  </div>
+
+  <nav class="toc">
+    <h3>目录 · CATALOG</h3>
+    <ol>
+      <li><a href="#a1">一、T 形帛画</a></li>
+      <li><a href="#a2">二、素纱襌衣</a></li>
+      <li><a href="#a3">三、彩绘漆棺</a></li>
+      <li><a href="#a4">四、彩绘木俑</a></li>
+      <li><a href="#a5">五、象纹大铜铙</a></li>
+      <li><a href="#a6">六、皿方罍</a></li>
+      <li><a href="#a7">七、大禾人面方鼎</a></li>
+      <li><a href="#a8">八、豕形铜尊</a></li>
+    </ol>
+  </nav>
+
+  <div class="section-head">
+    <span class="num">壹</span>
+    <h2>马王堆汉墓 · 汉初的时空胶囊</h2>
+  </div>
+  <div class="section-intro">
+    1972—1974 年，长沙东郊马王堆三座西汉墓相继发掘：一号墓主为<b>利仓</b>（西汉长沙国丞相、轪侯）之妻<b>辛追</b>，下葬于汉文帝十二年（前 168）之后数年；二号墓主为利仓本人；三号墓主为其子利豨（推测）。一号墓独特的保存状态——<b>椁室四周填塞一万余斤木炭</b>吸水，外层覆盖厚达 1 米的<b>白膏泥</b>（高岭土）隔绝空气——使墓内形成恒温、恒湿、无氧、无菌的密闭环境，这是辛追尸身两千年不腐、帛画漆器保存如新的根本原因。以下四件，是这批三千余件文物中最能呈现"汉初宇宙观与生活实录"的核心展品。
+  </div>
+
+  <article class="artifact" id="a1">
+    <img src="A_museum_exhibit_illustration__2026-04-28T02-30-17.png" alt="T 形帛画 复原示意" />
+    <div class="body">
+      <h3>T 形帛画（"非衣"/ 铭旌）</h3>
+      <div class="meta">西汉文帝时期 · 马王堆一号汉墓出土 · 首批禁止出境文物</div>
+
+      <div class="specs">
+        <div><b>通长</b>　205 cm</div>
+        <div><b>上宽</b>　92 cm</div>
+        <div><b>下宽</b>　47.7 cm</div>
+        <div><b>质地</b>　单层细绢（绢地）</div>
+        <div><b>工艺</b>　平涂 + 线描，矿物/植物颜料</div>
+        <div><b>出土位置</b>　覆盖于内棺盖板</div>
+      </div>
+
+      <p>出土时平铺在辛追夫人内棺盖板之上，上窄下宽呈"T"字形，顶端裹竹轴、两侧缀丝带，四角坠有飘带——是一幅可以高举悬挂的<span class="term" title="丧葬时张举以招魂引路的旗幡">铭旌</span>。画面以细绢为地，以朱砂、石青、石绿、白垩等矿物颜料平涂，以墨线勾勒，分<b>天上、人间、地下</b>三层，呈现汉初人对"宇宙—生死—升仙"的完整认知体系。</p>
+
+      <div class="sub-h">定名之争</div>
+      <p>《一号墓发掘报告》出版前，围绕此画曾出现"非衣""飞衣""幠""画荒""魂幡""铭旌"等多种命名方案。发掘报告据《仪礼·士丧礼》"为铭，各以其物……书铭于末曰：某氏某之柩"的记载，定名为<b>铭旌</b>；而"非衣"一说源自遣策（随葬品清单），"非衣一，长丈二尺"的记载与此帛画尺寸基本吻合。学界目前以"T 形帛画"作为通用名，功能定性为引魂升天的铭旌。</p>
+
+      <div class="sub-h">图像三界解读</div>
+      <p><b>天上</b>（T 的横梁部分）：正中为<span class="term" title="人首蛇身、手托日月的创世神">烛龙/女娲</span>形象，人首蛇身，身下月桂与蟾蜍、玉兔代表"月"，对称位置的扶桑树上栖九日（另有一日被金乌衔起），加"羲和浴日"母题。两侧有司阍神人拱手相迎，下方是双豹把守的<b>天门</b>。</p>
+      <p><b>人间</b>（T 的竖干上段）：居中一位拄杖老妇人由三侍女搀扶，前有两跪迎者。此即<b>辛追夫人升仙途中的自画像</b>——是中国绘画史上最早有明确对应墓主的"肖像"之一。人物下方绘帷幔与玉璧，璧下为祭祀场景：礼器列陈，供台上置鼎、壶、盘，两侧孝子奠祭。</p>
+      <p><b>地下</b>（T 的竖干下段）：一赤身巨人站立于交缠的双鱼与鳌（大龟）之上，双手擎托大地——即"地神"或"禺强"形象。两侧鸱鸮、龟蛇相搏，象征阴间的幽暗与威吓。</p>
+
+      <div class="sub-h">工艺细节</div>
+      <p>底绢为<b>单层平纹细绢</b>，丝细密，矿物颜料经两千年仍艳丽。墨线用中锋勾勒，线条富有弹性与提按变化，是<b>"春蚕吐丝描"</b>的早期实例；人物造型已有比例意识，开始摆脱先秦图案化倾向，是中国早期<b>写实人物画</b>的代表作。</p>
+
+      <div class="watch"><strong>现场看什么</strong>　① 最顶端烛龙/女娲的人首蛇身（注意蛇身的鳞甲细节）；② 太阳树上的九只金乌；③ 辛追夫人手中的拐杖造型——竹制、顶端包银；④ 地下巨人脚下那两条交缠的鱼的眼睛，是画家最精妙的一处。</p></div>
+
+      <div class="why"><strong>为什么珍贵</strong>　① 现存最早、最完整、保存最好的西汉帛画；② 首批禁止出境文物（1994 年国家文物局公布）；③ 图像内容涵盖神话、宗教、礼仪、肖像四个维度，被视为<b>中国绘画史的"起点级"作品</b>；④ 三号墓出土的另一幅 T 形帛画构图几乎一致，证明这是汉初宗室丧仪的<b>程式化铭旌</b>，而非孤例——这一点对理解汉代礼制极为关键。</div>
+    </div>
+  </article>
+
+  <article class="artifact" id="a2">
+    <img src="A_translucent_gossamer_thin_pl_2026-04-28T02-31-52.png" alt="素纱襌衣 复原示意" />
+    <div class="body">
+      <h3>素纱襌衣（直裾）</h3>
+      <div class="meta">西汉文帝时期 · 马王堆一号汉墓出土 · 首批禁止出境文物</div>
+
+      <div class="specs">
+        <div><b>衣长</b>　128 cm</div>
+        <div><b>通袖长</b>　190 cm</div>
+        <div><b>重量</b>　49 g（直裾）/ 48 g（曲裾）</div>
+        <div><b>织物组织</b>　单经单纬方孔平纹纱</div>
+        <div><b>经密</b>　58–64 根/cm</div>
+        <div><b>纬密</b>　40–50 根/cm</div>
+        <div><b>每平方米</b>　约 15.4 g</div>
+        <div><b>蚕丝纤度</b>　约 10.2–11.3 旦</div>
+      </div>
+
+      <p><b>"襌"（dān）</b>是一个极易被误写为"单"的专业术语——在《说文解字》中意为<b>"衣不重"</b>，即无衬里的单层外衣。此衣一号墓共出土两件，直裾一件 49 克，曲裾一件 48 克，均由<span class="term" title="每根经纱、每根纬纱均为单根交织，呈现规则方孔">单经单纬方孔平纹纱</span>织成，是迄今所见最早、最轻、最薄的完整丝织衣物实物。</p>
+
+      <div class="sub-h">为什么这么轻</div>
+      <p>关键在<b>蚕丝纤度</b>——指单位长度蚕丝的重量，数值越小丝越细。素纱襌衣的蚕丝纤度约 10.2–11.3 <span class="term" title="denier，9000 米长蚕丝的克重">旦</span>，而现代家蚕吐丝约 14 旦。差异源于蚕种：汉代使用<b>三眠蚕</b>（经历三次眠期后结茧），个体瘦小、吐丝极细；现代为追求产量长期选育<b>四眠蚕</b>，丝粗但产量高。纱料的<b>透空率约 75%</b>——意味着每平方厘米只有 15 克的物质，其余 3/4 是空气。</p>
+
+      <div class="sub-h">复织的十三年</div>
+      <p>1981 年湖南省博物馆委托南京云锦研究所尝试复织，首次失败——用现代蚕丝织出的成品重达 80 余克，厚度、透光都差距甚远。此后反复攻关：寻回接近灭绝的三眠蚕品种，手工缫取最细的丝，用特制窄幅织机还原汉代织造工艺。<b>2019 年 8 月，直裾款复织品完成，重 49.5 克</b>——与原件仅差 0.5 克，形制、尺寸、密度、颜色全部复原。历时 13 年。</p>
+
+      <div class="sub-h">1983 盗窃案</div>
+      <p>1983 年 10 月 23 日凌晨，湖南省博物馆发生建国以来最严重文物失窃案：一名 17 岁少年许反帝翻墙入馆，撬开陈列柜盗走包括<b>直裾素纱襌衣</b>在内的多件国宝。警方大规模追查，舆论压力下嫌犯之母在长沙烈士公园附近的垃圾堆中找到被抛弃的赃物袋——直裾襌衣<b>局部烧损、边缘撕裂</b>，但主体尚存。此后素纱襌衣安保级别升至最高，原件极少公开展出，常规陈列多使用复制品。</p>
+
+      <div class="sub-h">功能争议</div>
+      <p>关于其穿法，学界主要两种观点：① <b>"罩衣说"</b>——套在彩色锦衣外作为外套，使内衣花纹若隐若现，汉代文献"衣锦尚絅"（《诗·卫风》）正是此意；② <b>"内衣说"</b>——作为贴身衬衣。从马王堆遣策"单衣"的记载、以及其与一号墓其他丝织品的搭配关系看，第一种观点目前更为主流。</p>
+
+      <div class="watch"><strong>现场看什么</strong>　① 隔着玻璃对光——纱料的透光感会让你瞬间理解"薄如蝉翼"不是形容词；② 领缘、袖缘的锦边——这是全件唯一的"有色部分"，用的是菱纹绮；③ 尺寸标签——128 cm 衣长折合辛追夫人身高约 158 cm，是理解汉代女性体型的直接数据。</p></div>
+
+      <div class="why"><strong>为什么珍贵</strong>　① 目前所见年代最早、重量最轻、工艺最精的整件丝织衣物；② 是汉代"缫丝织造—蚕种培育—织机结构"完整技术链的直接物证，证明西汉早期丝织技术已达到现代难以企及的精细度；③ 首批禁止出境文物，展出有严格光照时间和温湿度限制；④ 是研究<b>汉代衣制（襌、复、袷、褕翟）</b>的命名标本。看到它，等于看到一段"濒临不可复制"的手艺被重新救回。</div>
+    </div>
+  </article>
+
+  <article class="artifact" id="a3">
+    <img src="Western_Han_dynasty_lacquered__2026-04-28T02-30-45.png" alt="彩绘漆棺 复原示意" />
+    <div class="body">
+      <h3>黑地彩绘漆棺 / 朱地彩绘漆棺</h3>
+      <div class="meta">西汉文帝时期 · 马王堆一号汉墓出土 · 一级文物</div>
+
+      <div class="specs">
+        <div><b>结构位置</b>　四重套棺之第二、第三重</div>
+        <div><b>胎质</b>　斫木为胎</div>
+        <div><b>工艺</b>　髹漆 + 彩绘 + 部分贴金</div>
+        <div><b>第二重</b>　黑漆地，长 2.56 m</div>
+        <div><b>第三重</b>　朱漆地，长 2.30 m</div>
+        <div><b>主题</b>　云气、神怪、升仙</div>
+      </div>
+
+      <p>辛追夫人遗体由外向内依次包裹在<b>椁 + 四重棺</b>中：最外为大木椁（内分四箱，放满随葬器物），椁内依次为<b>①黑漆素棺→②黑地彩绘棺→③朱地彩绘棺→④锦绣内棺</b>（棺外满缠丝带、丝绣，内铺绣衾）。能欣赏绘画的是第二、三重——这套"四重"的数量等级，<b>比《礼记》"诸侯三重"的规格还高</b>，表明辛追家族的等级接近诸侯王。</p>
+
+      <div class="sub-h">第二重 · 黑地彩绘棺</div>
+      <p>以黑漆为底，用白、红、黄、绿四色彩绘。每一面棺板绘流云纹为骨架，云气间穿插<b>100 余个怪神形象</b>：有持戈搏兽者、有抚琴起舞者、有驾鹿奔驰者、有与鸟兽相戏者。整体笔触飞动、线条狂放，被艺术史家誉为<b>"汉代漆画的顶峰之作"</b>。图像谱系上与《山海经》《楚辞·招魂》所述的"魑魅魍魉"相合——这些神怪不是威胁，而是<b>护送墓主升仙的卫士</b>。</p>
+
+      <div class="sub-h">第三重 · 朱地彩绘棺</div>
+      <p>底色改为朱红，绘画母题更集中：<b>双龙穿璧、龙虎相斗、仙鹿、凤鸟、仙人</b>。朱色在汉代观念中属阳、主驱邪、近神明；越贴近遗体的棺层颜色越红，图像越接近"升仙"主题——构成一套明确的<b>空间升格</b>：从外层的人间（黑地云怪）到内层的神界（朱地仙象）。</p>
+
+      <div class="sub-h">工艺与保存</div>
+      <p>整棺为<span class="term" title="将原木凿刻成型后拼接">斫木胎</span>，外髹生漆多层（每层都要阴干），再以<b>大漆调矿物颜料</b>绘制图案。漆膜耐腐、防水、抗菌——这是它在封闭环境下能保持 2100 年色泽鲜亮的关键。<b>髹漆层次</b>可达十余道，每一道厚度仅 0.1 mm 左右，工艺之复杂不亚于青铜铸造。</p>
+
+      <div class="watch"><strong>现场看什么</strong>　① 黑地棺四面的神怪总数能数出来吗（提示：每面约 25 个）；② 朱地棺正面的"双龙穿璧"主纹——两条夔龙从圆形玉璧中穿过，汉代仪礼美学最典型的母题；③ 红黑交界处的金粉勾线——在灯光下才会反光，站位换个角度看一下。</p></div>
+
+      <div class="why"><strong>为什么珍贵</strong>　① 存世规模最大、等级最高、保存最完好的西汉彩绘漆棺实物；② 是理解<b>汉初丧葬"升仙思想"的视觉总谱</b>——比文字描述直观百倍；③ 漆画艺术史上的顶级样本，直接影响此后两千年中国漆艺、壁画的构图与技法；④ 辛追夫人能两千年不腐，这套四重棺的密封结构是物理上的关键因素之一。</div>
+    </div>
+  </article>
+
+  <article class="artifact" id="a4">
+    <img src="Western_Han_dynasty_painted_wo_2026-04-28T02-32-45.png" alt="彩绘木俑 复原示意" />
+    <div class="body">
+      <h3>彩绘木俑群</h3>
+      <div class="meta">西汉文帝时期 · 马王堆一、二、三号墓出土 · 三级至一级文物不等</div>
+
+      <div class="specs">
+        <div><b>总数</b>　三墓共计 266 件</div>
+        <div><b>主要类型</b>　歌俑、舞俑、乐俑、侍从俑、著衣俑</div>
+        <div><b>材质</b>　木雕，彩绘 + 丝织物包裹</div>
+        <div><b>最高</b>　约 79 cm（一号墓立俑）</div>
+        <div><b>最矮</b>　约 32 cm（奏乐俑）</div>
+      </div>
+
+      <p>马王堆木俑不是简单的"陪葬替身"，而是一整套<b>仪仗 + 家班乐队 + 生活侍从</b>的微缩配置——目的是让墓主在地下延续生前的生活秩序。266 件俑按功能分成五大类，每一类都对应着一个汉代贵族家庭的必要角色。</p>
+
+      <div class="sub-h">类型与功能</div>
+      <p><b>著衣俑</b>：一号墓出土 10 件，每件穿戴完整的丝制袍、襦、帻，外罩素纱，是墓主生前贴身侍婢的"标准像"。木胎雕出脸庞、手指、肌理，衣饰完全写实。</p>
+      <p><b>彩绘立俑</b>：身穿一体彩绘的长袍，五官、发髻、衣饰均以墨线与矿物颜料直接绘于木胎——是侍从俑主体。</p>
+      <p><b>歌舞俑</b>：一组 4 件或 8 件，身体倾斜、长袖翻飞，<b>明显模拟汉代"翘袖折腰舞"</b>——这是汉代最流行的女子独舞动作（《史记·留侯世家》有"翘袖折腰之舞"记载），马王堆歌舞俑是其最早的立体实证。</p>
+      <p><b>奏乐俑</b>：5 人为一组，分别<b>鼓瑟、吹竽、击筑、抚琴、击磬</b>，乐器用木头另雕安装在怀中或腿上。对复原汉代乐队编制极为重要——这<b>五件乐器就是汉初贵族家伎的标准配置</b>。</p>
+      <p><b>俑人身份</b>：马王堆遣策中明确记录了"婢"（女奴）、"奴"（男奴）、"官婢""美人"等身份等级，每件俑所戴的发髻、服饰、手持物品，都严格对应着不同等级——是研究汉初<b>家庭奴婢制度</b>的一手材料。</p>
+
+      <div class="sub-h">殉葬制度的变迁</div>
+      <p>商周盛行<b>"人殉"</b>（以活人殉葬），战国开始大规模转向<b>"俑殉"</b>（以陶俑、木俑替代）。孔子骂"始作俑者其无后乎"正是批评这种"形似人的替代物"——但到汉代已被全面接受，且工艺越发精细。马王堆木俑处在<b>陶俑（秦兵马俑体系）</b>与<b>汉陶侍女俑</b>之间的关键位置，是南方楚地木雕传统的延续。</p>
+
+      <div class="watch"><strong>现场看什么</strong>　① 著衣俑身上那层素纱——那是微型版的素纱襌衣；② 奏乐俑的手指关节——能看出工匠在雕小型乐器时对指法的观察；③ 歌舞俑的腰部曲线——"折腰"这个动作在俑身的扭转角度上清晰呈现。</p></div>
+
+      <div class="why"><strong>为什么珍贵</strong>　① 现存规模最大、保存最完整、类型最齐全的西汉木俑群；② 彩绘、衣物、发髻、神态、乐器几乎全部保留，是汉代<b>服饰史、音乐史、舞蹈史、家庭制度</b>研究的立体档案；③ 著衣俑身上的真实丝织品，是研究汉代纺织品最直接的标本之一；④ 汉代贵族家伎配置的唯一立体物证。</div>
+    </div>
+  </article>
+
+  <div class="section-head">
+    <span class="num">贰</span>
+    <h2>商周青铜 · 南方的"另一种文明"</h2>
+  </div>
+  <div class="section-intro">
+    与中原商周青铜器（偏重礼制化的鼎、簋、爵、觚体系）不同，湘江流域——尤其是<b>宁乡炭河里、湘潭、岳阳</b>一带——出土的商周青铜器呈现出<b>体量硕大、造型写实、纹饰强调地域神话</b>的独立风貌。考古学上将其归入"<b>宁乡青铜器群</b>"，其背后很可能存在一个与殷商中央政权保持礼制关联、但文化独立的<b>南方方国</b>（学界一说"虎方""三苗"遗裔，一说"濮"人）。此四件皆为其代表，也都是<b>首批禁止出境展览文物</b>。
+  </div>
+
+  <article class="artifact" id="a5">
+    <img src="Chinese_late_Shang_dynasty_bro_2026-04-28T03-00-48.png" alt="象纹大铜铙 复原示意" />
+    <div class="body">
+      <h3>商象纹大铜铙</h3>
+      <div class="meta">商代晚期（约前 13—前 11 世纪） · 1959 年宁乡老粮仓师古寨出土 · 首批禁出境</div>
+
+      <div class="specs">
+        <div><b>通高</b>　70 cm</div>
+        <div><b>铣间宽</b>　46.2 cm</div>
+        <div><b>重量</b>　67.25 kg</div>
+        <div><b>甬长</b>　26 cm</div>
+        <div><b>器型</b>　合瓦形，甬柄中空</div>
+        <div><b>同出器</b>　宁乡大铙群（现存 10 余件）</div>
+      </div>
+
+      <p>外形像两片瓦片合拢，上有<span class="term" title="中空圆柱形执柄">甬</span>可插入木架，使用时<b>甬在下、口朝上</b>——敲击的不是口沿，而是近口内侧的<span class="term" title="铙口两侧突起部分">铣</span>部与<span class="term" title="铙口中央内壁">隧</span>部。这种口朝上的执奏方式与后世钟类乐器（口朝下悬挂）正好相反，是商代<b>南方独有的大型单体打击乐器</b>。</p>
+
+      <div class="sub-h">形制术语逐一看</div>
+      <p><b>铣</b>（xiǎn）：两侧弧形部分，敲击此处发清脆声；<b>隧</b>：正中凹下部位，敲击此处发浑厚声；<b>甬</b>：下部中空圆柱，用于插入底座；<b>旋</b>：甬上一圈凸起的箍；<b>干</b>：铙身主体。一件铙通过敲击不同部位能发出双音，这就是商代乐理的"一铙双音"现象——后世编钟的"一钟双音"源出于此。</p>
+
+      <div class="sub-h">纹饰系统</div>
+      <p><b>主纹</b>：器身两侧各铸一只<b>相向站立的大象</b>，高浮雕，象鼻上卷、肢体粗壮，是迄今所见最早也是最写实的大象纹饰器物。<b>地纹</b>：以细密的<span class="term" title="方折回旋的雷纹，商周青铜器通用地纹">云雷纹</span>满铺；<b>辅纹</b>：象头下方饰以小兽面纹，眼睛凸出、口角上翘。</p>
+
+      <div class="sub-h">为什么是大象</div>
+      <p>商代至西周早期，湘江流域气候温暖湿润，亚洲象的分布北界可达长江中游——殷墟甲骨文中"省象""获象"的记载即指此。"湘"字本就含"象"形（一说湘江得名于象群常至），<b>象纹是湖南青铜器最地方化的标志性图案</b>，与中原鼎簋上清一色的饕餮、夔龙形成强烈对比。</p>
+
+      <div class="sub-h">宁乡大铙群</div>
+      <p>自 1938 年首次发现以来，宁乡老粮仓、黄材一带<b>陆续出土各类大铙数十件</b>，构成中国目前发现商代大型青铜乐器最密集的区域。学界认为这些铙可能用于<b>祭祀山川</b>——商代南方没有中原那样的"宗庙"系统，礼乐的场域转向自然山岳，铙埋于山顶正好印证此说。</p>
+
+      <div class="watch"><strong>现场看什么</strong>　① 两侧大象的位置关系——左右相向而立，鼻部相接，是对称美学的典型；② 铣部有无敲击痕迹——使用过的铙铣部会有明显磨损；③ 甬柄内壁——能看到是否有铸造范线。</p></div>
+
+      <div class="why"><strong>为什么珍贵</strong>　① 存世商代最重的大铜铙（67.25 kg），是"南方礼乐系统"的代表器；② 首批禁止出境文物；③ <b>象纹为中国青铜器最早的大象立体高浮雕之一</b>，直接反映商代南方生态；④ 是理解"一铙双音"→"一钟双音"这一中国乐理演进链条的关键实物。湖南博物院真正的<b>自家镇馆青铜器</b>（常被网友混淆的"四羊方尊"出土于宁乡但现藏中国国家博物馆）。</div>
+    </div>
+  </article>
+
+  <article class="artifact" id="a6">
+    <img src="Chinese_late_Shang_dynasty_bro_2026-04-28T02-30-30.png" alt="皿方罍 复原示意" />
+    <div class="body">
+      <h3>商皿方罍（"方罍之王" / "皿而全"铜方罍）</h3>
+      <div class="meta">商代晚期 · 1919 年桃源县水田乡茅山峪出土 · 首批禁出境</div>
+
+      <div class="specs">
+        <div><b>通高</b>　88 cm</div>
+        <div><b>口长</b>　26.1 cm</div>
+        <div><b>口宽</b>　21.6 cm</div>
+        <div><b>器型</b>　方口、广肩、高圈足盛酒器</div>
+        <div><b>盖形</b>　庑殿顶式（四坡屋顶造型）</div>
+        <div><b>铭文</b>　器盖 8 字 / 器身 6 字</div>
+      </div>
+
+      <p><span class="term" title="léi，商周盛酒大器">罍</span>是商周时期最大型的盛酒礼器，一般分为圆罍与方罍两种——方罍器型庄重、工艺最难，存世极为稀少。此件通高 88 cm（接近半人高），<b>器型硕大、纹饰繁复、铸造精湛、铭文清晰</b>，四项指标均居所有已知方罍之首，因此被学界誉为<b>"方罍之王"</b>。</p>
+
+      <div class="sub-h">形制结构</div>
+      <p>全器分<b>盖与身</b>两部分：<b>器盖</b>呈四面坡屋顶状，即<span class="term" title="中国古建最高等级屋顶形制">庑殿顶</span>造型，顶中央有一立鸟钮；<b>器身</b>方口、短颈、广肩、深腹、高方圈足，肩部两侧各有一个<span class="term" title="耳状附件，用于穿绳提携">兽首衔环耳</span>，腹部正面下方有一个突出的小兽首。<b>这是商代方罍的最高等级形制</b>——庑殿顶造型在当时只有王室宗庙建筑才能使用。</p>
+
+      <div class="sub-h">纹饰系统</div>
+      <p><b>主纹（三层）</b>：肩部饰<b>夔龙纹</b>相对；腹部四面主纹为<b>大型饕餮纹</b>（即兽面纹），双目凸出、口部张开；圈足饰<b>夔纹</b>。<b>地纹</b>：满布<b>云雷纹</b>填底；<b>辅纹</b>：盖面四坡各饰一组<b>龙形扉棱</b>、棱脊高挺。整器纹饰层次可分<b>三重纹饰</b>——这是商代青铜器装饰的最高规格。</p>
+
+      <div class="sub-h">铭文释读</div>
+      <p>器盖内壁铸铭文<b>"皿而全作父己尊彝"</b>八字，器身内壁铸<b>"皿作父己尊彝"</b>六字。"皿"是作器者的族氏（或国名）；"而全"是作器者的名字（字意近"完全""完备"）；"父己"是受祭者（即作器者之父，日名"己"）；"尊彝"是青铜礼器的通称。全句意为：<b>"皿而全为纪念父亲（日名己）而铸此尊彝"</b>。<b>这组铭文是学界论证器盖与器身同属一器的最直接证据。</b></p>
+
+      <div class="sub-h">身盖分离的九十五年</div>
+      <p>1919 年，桃源县水田乡茅山峪农民艾清宴在山间发现此罍。盖被当地石门中学校长<b>钟逢雨</b>取去鉴别，根据盖上"皿而全"铭文判明为商代重器；器身则被益阳商人<b>石瑜璋</b>于 1924 年重金购去，此后辗转流入海外：先到上海，后抵法国，1956 年归美国某藏家，1990 年代辗转至日本。器盖始终留在湖南（1956 年入藏湖南省博物馆）。<b>身与盖相隔一个地球、一个世纪。</b></p>
+
+      <div class="sub-h">2014：完罍归湘</div>
+      <p>2014 年 3 月，器身现身<b>纽约佳士得春拍</b>，估价 1000—1500 万美元。消息传回，湖南博物院、湖南省政府、国内收藏界紧急协商。因直接竞拍风险大（可能被国际资本托价），团队决定<b>拍前洽购</b>——由湖南企业家联合会、湘籍艺术家谭国斌等出资 2000 万美元（约合 1.3 亿人民币），在开拍前与卖方达成协议，由佳士得撤拍、直接成交。<b>2014 年 6 月 28 日，器身飞抵长沙</b>，当晚在湖南博物馆举行"完罍归湘"仪式，器身与器盖合体——分离 95 年后终得团圆。此事成为<b>中国海外文物以"民间力量 + 政府协调"方式成功追索回归</b>的里程碑案例。</p>
+
+      <div class="watch"><strong>现场看什么</strong>　① 器盖与器身的拼合缝——能感受"分离 95 年终于合体"的历史厚度；② 器盖内铭文"皿而全作父己尊彝"八字——字口清晰，是商代金文的标准样本；③ 腹部正面中央的小兽首——被很多游客忽略，其实是器型最点睛之处；④ 圈足上的范铸线——商代<span class="term" title="以陶范拼合浇铸青铜器的方法，范线即范块接缝痕迹">陶范铸造</span>工艺的直接痕迹。</p></div>
+
+      <div class="why"><strong>为什么珍贵</strong>　① 存世体量最大、纹饰最精、等级最高的商代方罍，<b>"方罍之王"名副其实</b>；② 首批禁止出境文物；③ 铭文清晰，是商代晚期南方方国与中原王朝礼制互动的关键物证；④ 中国海外文物回归史上的<b>标志性案例</b>——"完罍归湘"模式此后被多次复用。站在它面前看的不仅是青铜器，还有一段"国宝如何回家"的完整历史。</div>
+    </div>
+  </article>
+
+  <article class="artifact" id="a7">
+    <img src="Chinese_late_Shang_dynasty_bro_2026-04-28T02-30-36.png" alt="大禾人面方鼎 复原示意" />
+    <div class="body">
+      <h3>商大禾人面方鼎（人面纹方鼎）</h3>
+      <div class="meta">商代晚期 · 1959 年宁乡县黄材镇出土 · 首批禁出境</div>
+
+      <div class="specs">
+        <div><b>通高</b>　38.5 cm</div>
+        <div><b>口长</b>　29.8 cm</div>
+        <div><b>口宽</b>　23.7 cm</div>
+        <div><b>重量</b>　12.85 kg</div>
+        <div><b>器型</b>　长方体四足鼎</div>
+        <div><b>铭文</b>　腹内壁"大禾"二字</div>
+      </div>
+
+      <p>中国已出土商周青铜鼎数以千计，纹饰主体<b>无一例外</b>都是抽象化的饕餮、夔龙、窃曲——<b>唯独这一件</b>，四面腹壁铸有四张<b>写实的、近乎人形的高浮雕面孔</b>。是目前<b>中国唯一以人面纹为主题</b>的商代青铜方鼎，也是整个商周铜器中最特殊的面部造型。</p>
+
+      <div class="sub-h">四张脸的图像学</div>
+      <p>每面铸一张近半米的<b>大型人面</b>：方额宽颧、鼻梁挺直、双目圆睁、口唇紧闭、表情肃穆；脸颊两侧铸有一对兽耳（而非人耳），颏下有<b>爪形装饰</b>——这几处"非人"的细节提示：所表现的<b>不是一般人类</b>，而是<b>"有首无身"的神祇或祖先形象</b>。学界主要观点：</p>
+      <p>① <b>祝融说</b>（高至喜）：南方"祝融八姓"的共同祖先；② <b>蚩尤说</b>（李学勤等）：南方苗蛮部族的始祖形象；③ <b>方相氏说</b>：商代驱鬼仪式中面具化的神职形象；④ <b>"人面动物"神说</b>：对应《山海经》中"人面、虎爪、鸟身"的复合神灵。目前无定论。</p>
+
+      <div class="sub-h">铭文"大禾"</div>
+      <p>鼎内壁铸铭文<b>"大禾"</b>二字。主流解读：</p>
+      <p>① <b>族氏徽号说</b>：商代"大禾"为一个方国或族氏（类似"大邑""大彭"），此鼎为该方国首领铸造；② <b>祭祀对象说</b>："禾"象征农作，整鼎可能是为祈丰年的祭祀礼器；③ <b>作器者名说</b>："大禾"为作器者名字。目前族氏徽号说最主流。"大禾"方国可能是商代湘江流域一个以农业立国的强势方国。</p>
+
+      <div class="sub-h">工艺与铸造</div>
+      <p>使用<b>整体陶范铸造</b>，鼎身各部（口沿、四面腹壁、四足、双耳）分别制范后整体浇铸，人面纹部分采用<b>深浮雕凸起</b>工艺——这要求陶范在预制时将人面"翻刻"进去，对范模制作工艺要求极高。四面人脸的对称精度、面部轮廓的一致性，证明商代南方青铜铸造技术已达到<b>独立完成复杂浮雕</b>的水平。</p>
+
+      <div class="sub-h">"差点被当废铜"的出土史</div>
+      <p>1959 年宁乡黄材镇一位村民挖到一堆"怪模怪样的破铜烂铁"，砸碎后分批卖到县城废品收购站准备回炉。<b>省博物馆驻点收购员发现情况后，在废品堆中找回部分残片</b>；其余散片在此后十余年陆续在湖南省各废品站中被追回。最后一块小残片直到 1970 年代初才由专人辗转追回，拼合修复后才呈现现在完整的样貌——<b>某种意义上，这件鼎是从回炉熔炉边上抢回来的</b>。</p>
+
+      <div class="watch"><strong>现场看什么</strong>　① 正面人脸双目——瞳孔的凸起雕刻，正看有"被注视"的奇异感；② 人脸颊下的"爪形饰"——这是判断"非人"的关键细节；③ 内壁"大禾"二字——金文早期字体，笔画圆润；④ 鼎足内侧——仔细看可辨认修复拼合的痕迹，是"九死一生"的物证。</p></div>
+
+      <div class="why"><strong>为什么珍贵</strong>　① 中国商周青铜器中<b>独一无二</b>的人面纹方鼎；② 首批禁止出境文物；③ 是研究商代南方信仰体系、"商王朝之外的方国文化"最关键的实物；④ "差点被熔"的出土故事，本身就是中国文物保护史的标志性片段；⑤ 现场那四张脸的视觉冲击力，是其他任何青铜器都无法替代的。</div>
+    </div>
+  </article>
+
+  <article class="artifact" id="a8">
+    <img src="Chinese_late_Shang_dynasty_bro_2026-04-28T02-30-44.png" alt="豕形铜尊 复原示意" />
+    <div class="body">
+      <h3>商豕形铜尊（豕尊）</h3>
+      <div class="meta">商代晚期 · 1981 年湘潭九华船形山出土 · 一级文物</div>
+
+      <div class="specs">
+        <div><b>通高</b>　40 cm</div>
+        <div><b>体长</b>　72 cm</div>
+        <div><b>重量</b>　19.75 kg</div>
+        <div><b>实测容积</b>　13 升</div>
+        <div><b>造型</b>　站立成年公野猪</div>
+        <div><b>盖</b>　背部椭圆形盖 + 小鸟纽</div>
+      </div>
+
+      <p><span class="term" title="盛酒礼器，方形或圆形常见">尊</span>在商周通常做成规整的方形或圆形容器，但湘江流域偏偏出了一批<b>整体铸成动物形态</b>的动物尊——象尊、虎食人卣、豕尊……其中豕尊是<b>商代青铜器中唯一以野猪为整体造型</b>的盛酒器，现存世仅此一件。</p>
+
+      <div class="sub-h">形态解剖</div>
+      <p>这是一头<b>成年公野猪</b>的精准立体塑造：</p>
+      <p>• <b>头部</b>：嘴微张，<b>獠牙外露</b>（这是野猪区别于家猪的关键特征）；双耳前倾作警觉状；双眼圆睁，眼珠凸起；<br />
+      • <b>躯干</b>：背部拱起、颈项短粗、腰腹饱满，符合野猪的肌肉线条；<br />
+      • <b>鬃毛</b>：从颈后一路沿脊背延伸到尾部，铸出清晰的竖起鬃毛；<br />
+      • <b>四肢</b>：前后肢分开站立，蹄部粗短有力；<br />
+      • <b>背盖</b>：椭圆形盖位于背部正中，盖顶立一小型<b>凤鸟纽</b>，可打开注酒；<br />
+      • <b>圈足与腹底</b>：圈足隐藏在腹下，整器重心稳定。</p>
+
+      <div class="sub-h">纹饰系统</div>
+      <p><b>主体纹饰</b>以兽身肌理为"形"，<b>辅助纹饰</b>以青铜礼器的经典母题为"纹"：肩部、腹侧饰<b>云雷纹</b>为地；脖颈与腹部两侧另饰<b>小型夔龙纹</b>；臀部饰<b>涡云纹</b>。<b>这是商代典型的"器形写实 + 纹饰图案化"结合</b>——外观像动物，但身上仍覆盖着整套礼器化的符号系统。</p>
+
+      <div class="sub-h">为什么是野猪</div>
+      <p>商周动物尊的选题绝非偶然——中原选用虎、鸟、牛、羊等"正祭动物"，而<b>湖湘选用的动物带着鲜明地方色彩</b>：象、猪、虎，都是当时湘江流域野外真实可见的动物。野猪在南方原始信仰中象征<b>勇武、多产、丰饶</b>，且其獠牙被视为驱邪神物。用野猪铸酒器用于祭祀，意在<b>借其威猛通神</b>。学界另一种观点：湘江流域商代可能存在<b>以猪为图腾</b>的部族，此尊是该部族的最高礼器。</p>
+
+      <div class="sub-h">铸造工艺</div>
+      <p>全器采用<b>分范合铸</b>——先将野猪分解为头、躯干、四肢、背盖等部分，分别制范、分件浇铸，再拼焊成型。<b>最大的技术难点</b>是立体造型内部的空腔——野猪腹内的 13 升容积必须完整、均匀、不渗漏，这要求<b>内范悬空</b>、泥芯定位精准。这件器物的成功铸造，证明<b>商代晚期湘江流域的青铜铸造技术已能独立完成高度复杂的立体造型</b>，不再依赖中原技术输出。</p>
+
+      <div class="sub-h">出土的偶然</div>
+      <p>1981 年春，湘潭县九华公社桂花村船形山生产队队员<b>朱桂武</b>在平整地基时，一锄挖出此尊。当地文物部门迅速介入，清洗出厚厚绿锈下的完整野猪形态。这是<b>全国唯一一件出土原状完整的商代豕尊</b>——没有盗扰、没有残损、原貌无缺。</p>
+
+      <div class="watch"><strong>现场看什么</strong>　① 头部那对獠牙——是判断野猪而非家猪的关键；② 背盖的凤鸟纽——打开盖即可注酒，鸟形纽是"酒香引凤"的隐喻；③ 鬃毛的线条密度——从颈背一直延伸到尾根，是观察商代铸造精度的标尺；④ 腹下圈足——隐藏式设计，体现"器形写实优先于器型规范"的南方青铜美学。</p></div>
+
+      <div class="why"><strong>为什么珍贵</strong>　① <b>商代唯一</b>以野猪为整体造型的青铜尊，存世孤品；② 完整出土、无盗扰、无残损，保存状态全球最佳；③ 是南方青铜美学<b>"写实造型 + 礼器纹饰"</b>这一独特体系的标准器；④ 与同地区的象尊、皿方罍、大禾方鼎共同证明：<b>商代晚期湖南存在一个独立于中原的青铜文化中心</b>，这一结论对重写"商文明只有中原一源"的叙事至关重要。</div>
+    </div>
+  </article>
+
+  <div class="tips">
+    <h3>参观 TIPS</h3>
+    <ul>
+      <li><b>开放信息</b>：周一闭馆（法定节假日除外），建议出发前查 hnmuseum.com 当期公告。</li>
+      <li><b>预约</b>：官方公众号"湖南博物院"每日限流预约，节假日建议提前 3—7 天。</li>
+      <li><b>建议动线</b>：二楼「三湘历史文化陈列」看<b>商周青铜器</b>与湖湘文明源流 → 二、三楼「长沙马王堆汉墓陈列」看<b>帛画、漆棺、素纱襌衣、辛追遗体</b>。马王堆陈列最精华，建议留足 2—2.5 小时。</li>
+      <li><b>光敏文物</b>：素纱襌衣、T 形帛画原件的展出有严格时长/光照限制，想看原件必须查<b>当期临展公告</b>，否则展出的多为复制品。</li>
+      <li><b>语音导览</b>：官方讲解器（20 元左右）或预约人工讲解员（按团算）强烈推荐——青铜器的纹饰、铭文、形制术语没有讲解至少丢一半信息量。</li>
+      <li><b>拍照</b>：可以拍，禁闪光灯、禁补光灯、禁三脚架。部分一级文物单独标"禁止拍摄"，注意展柜右下角标识。</li>
+      <li><b>时间预估</b>：精看（含讲解）4 小时起；一般游览 2.5—3 小时；走马观花 1.5 小时。</li>
+      <li><b>配套阅读</b>：去之前翻一下《马王堆汉墓发掘报告》《湖南出土商周青铜器》（高至喜），哪怕只看图录，现场理解深度会翻倍。</li>
+    </ul>
+  </div>
+
+  <footer>
+    HUNAN MUSEUM · EIGHT TREASURES · PROFESSIONAL GUIDE
+  </footer>
+</div>
+</body>
+</html>
